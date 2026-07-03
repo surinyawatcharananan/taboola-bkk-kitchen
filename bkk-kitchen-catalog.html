@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>คู่มือครัว Taboola BKK</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:#C0392B;--red-light:#E8574A;--red-dark:#922B21;
+  --cream:#FDF6EC;--warm:#FFFCF7;
+  --gold:#E8A020;--gold-light:#F5C842;
+  --green:#27AE60;--green-light:#EAFAF1;
+  --orange:#E67E22;--blue:#2980B9;--blue-light:#EBF5FB;
+  --purple:#8E44AD;--purple-light:#F5EEF8;
+  --text:#1A1A1A;--mid:#4A4A4A;--light:#888;--border:#E8DDD0;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Sarabun',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;}
+
+.header{background:var(--red);color:white;padding:20px 28px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.2);}
+.header-logo{font-family:'Prompt',sans-serif;font-size:22px;font-weight:700;}
+.header-logo span{color:var(--gold-light);}
+.header-sub{font-size:12px;opacity:.8;margin-top:2px;}
+.header-right{margin-left:auto;text-align:right;}
+.hdate{font-size:15px;font-weight:700;}
+.hlabel{font-size:11px;opacity:.7;}
+
+.nav{background:var(--red-dark);display:flex;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-tab{padding:12px 22px;color:rgba(255,255,255,.6);font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .2s;user-select:none;}
+.nav-tab:hover{color:white;background:rgba(255,255,255,.05);}
+.nav-tab.active{color:var(--gold-light);border-bottom-color:var(--gold-light);background:rgba(255,255,255,.08);}
+
+.main{max-width:1100px;margin:0 auto;padding:24px 18px 80px;}
+.section{display:none;}.section.active{display:block;}
+.sec-title{font-family:'Prompt',sans-serif;font-size:19px;font-weight:700;color:var(--red);margin-bottom:4px;}
+.sec-desc{font-size:13px;color:var(--mid);margin-bottom:20px;line-height:1.6;}
+
+/* filters */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.fbtn{padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:'Sarabun',sans-serif;font-size:12px;cursor:pointer;font-weight:600;transition:all .2s;color:var(--mid);}
+.fbtn:hover,.fbtn.active{background:var(--red);color:white;border-color:var(--red);}
+
+/* catalog grid */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
+
+.mcard{background:white;border-radius:14px;border:2px solid var(--border);overflow:hidden;transition:all .2s;position:relative;}
+.mcard:hover{box-shadow:0 6px 24px rgba(0,0,0,.1);transform:translateY(-2px);border-color:var(--red-light);}
+
+/* card image area */
+.cimg-wrap{width:100%;height:155px;position:relative;overflow:hidden;background:#f5ede3;cursor:pointer;}
+.cimg-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.cimg-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;}
+.cimg-edit-btn{position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.55);color:white;border:none;border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer;font-family:'Sarabun',sans-serif;}
+.cimg-edit-btn:hover{background:rgba(0,0,0,.8);}
+
+.cbody{padding:12px 14px 14px;}
+.cmeat{font-size:14px;margin-bottom:4px;}
+.cname{font-weight:700;font-size:14px;margin-bottom:2px;}
+.cen{font-size:11px;color:var(--light);margin-bottom:6px;}
+.cdesc{font-size:12px;color:var(--mid);line-height:1.5;margin-bottom:8px;}
+
+.edit-btn-row{display:flex;gap:6px;margin-top:6px;}
+.ebtn{padding:5px 10px;border-radius:7px;border:1.5px solid var(--border);background:white;font-family:'Sarabun',sans-serif;font-size:11px;cursor:pointer;font-weight:600;color:var(--mid);transition:all .15s;}
+.ebtn:hover{border-color:var(--red);color:var(--red);}
+.ebtn.primary{background:var(--red);color:white;border-color:var(--red);}
+
+/* inline edit form */
+.edit-form{display:none;padding:10px 14px 14px;border-top:1.5px solid var(--border);}
+.edit-form.open{display:block;}
+.eflabel{font-size:11px;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;margin-top:10px;}
+.eflabel:first-child{margin-top:0;}
+.efinput{width:100%;padding:7px 9px;border:1.5px solid var(--border);border-radius:7px;font-family:'Sarabun',sans-serif;font-size:13px;background:var(--warm);}
+.efinput:focus{outline:none;border-color:var(--red);}
+textarea.efinput{resize:vertical;min-height:55px;}
+.ef-save{margin-top:10px;padding:7px 16px;background:var(--red);color:white;border:none;border-radius:7px;font-family:'Sarabun',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
+
+/* dietary legend */
+.dleg{background:white;border-radius:10px;border:1.5px solid var(--border);padding:10px 14px;margin-bottom:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:13px;}
+.dleg-title{font-size:11px;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:.5px;}
+
+/* planner */
+.pcard{background:white;border-radius:14px;border:2px solid var(--border);padding:20px;margin-bottom:14px;}
+.pcard h3{font-size:15px;font-weight:700;margin-bottom:3px;color:var(--red);}
+.pcard p{font-size:12px;color:var(--mid);margin-bottom:12px;}
+.psel{width:100%;padding:9px 12px;border:2px solid var(--border);border-radius:9px;font-family:'Sarabun',sans-serif;font-size:13px;background:var(--warm);color:var(--text);cursor:pointer;}
+.psel:focus{outline:none;border-color:var(--red);}
+.prow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+.btn{padding:10px 20px;border-radius:9px;font-family:'Sarabun',sans-serif;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all .2s;}
+.btn-primary{background:var(--red);color:white;}
+.btn-primary:hover{background:var(--red-light);}
+.btn-outline{background:white;color:var(--red);border:2px solid var(--red);}
+.btn-outline:hover{background:var(--red);color:white;}
+.pactions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+
+/* shopping output */
+.shop-out{display:none;margin-top:20px;}
+.shop-out.vis{display:block;}
+
+.shop-special{background:#FEF8F7;border:2px solid var(--red-light);border-radius:12px;padding:18px;margin-bottom:14px;}
+.shop-special h3{font-size:14px;font-weight:700;color:var(--red);margin-bottom:12px;}
+.sitem{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f5ddd9;font-size:13px;}
+.sitem:last-child{border-bottom:none;}
+.stag{background:var(--red);color:white;font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;}
+
+.shop-base{background:white;border:2px solid var(--border);border-radius:12px;padding:18px;}
+.shop-base h3{font-size:14px;font-weight:700;margin-bottom:3px;}
+.shop-base p{font-size:12px;color:var(--light);margin-bottom:14px;}
+.bcat{margin-bottom:14px;}
+.bcat h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--light);margin-bottom:7px;}
+.bitems{display:flex;flex-direction:column;gap:5px;}
+.bitem{display:flex;align-items:center;gap:10px;padding:7px 10px;border:1.5px solid var(--border);border-radius:7px;background:var(--warm);font-size:13px;cursor:pointer;transition:all .15s;}
+.bitem.done{opacity:.4;text-decoration:line-through;background:#f5f5f5;}
+.bitem input[type=checkbox]{width:15px;height:15px;accent-color:var(--red);cursor:pointer;flex-shrink:0;}
+
+/* dashboard */
+.dash-header-note{background:var(--gold);color:white;border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:13px;font-weight:600;}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;}
+.dash-card{background:white;border-radius:14px;border:2px solid var(--border);overflow:hidden;}
+.dash-card-img{width:100%;height:130px;object-fit:cover;display:block;background:#f0e8dc;}
+.dash-card-img-ph{width:100%;height:130px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,var(--cream),#f0e8dc);}
+.dash-card-body{padding:12px 14px 14px;}
+.dash-card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--light);margin-bottom:4px;}
+.dash-card-name{font-weight:700;font-size:14px;margin-bottom:4px;}
+.dash-card-meat{font-size:13px;margin-bottom:4px;}
+.dash-card-desc{font-size:12px;color:var(--mid);line-height:1.5;}
+
+.dash-bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.dash-list-card{background:white;border-radius:14px;border:2px solid var(--border);padding:18px;}
+.dash-list-card h3{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--red);}
+.dash-list-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--cream);font-size:13px;}
+.dash-list-item:last-child{border-bottom:none;}
+.dash-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0;}
+.dash-dot.green{background:var(--green);}
+.dash-empty{color:var(--light);font-size:13px;font-style:italic;}
+.dash-no-sel{background:#FEF8F7;border:2px dashed var(--red-light);border-radius:12px;padding:20px;text-align:center;color:var(--red);font-size:14px;margin-bottom:20px;}
+
+/* image URL modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:white;border-radius:16px;padding:28px;width:90%;max-width:440px;}
+.modal-box h3{font-size:17px;font-weight:700;margin-bottom:6px;}
+.modal-box p{font-size:13px;color:var(--mid);margin-bottom:16px;line-height:1.5;}
+.modal-input{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:9px;font-family:'Sarabun',sans-serif;font-size:13px;margin-bottom:12px;}
+.modal-input:focus{outline:none;border-color:var(--red);}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;}
+.modal-preview{width:100%;height:140px;object-fit:cover;border-radius:9px;margin-bottom:12px;display:none;border:1.5px solid var(--border);}
+
+/* prep stations (same as before, minimal) */
+.prep-day-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
+.pdtab{padding:7px 16px;border-radius:20px;border:2px solid var(--border);background:white;font-family:'Sarabun',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--mid);}
+.pdtab:hover{border-color:var(--red);color:var(--red);}
+.pdtab.active{background:var(--red);color:white;border-color:var(--red);}
+.prep-panel{display:none;}.prep-panel.active{display:block;}
+.sblock{background:white;border-radius:12px;border:2px solid var(--border);margin-bottom:10px;overflow:hidden;}
+.shdr{padding:13px 16px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;cursor:pointer;user-select:none;}
+.shdr:hover{background:var(--cream);}
+.sc1 .shdr{border-left:5px solid var(--green);}
+.sc2 .shdr{border-left:5px solid var(--orange);}
+.sc3 .shdr{border-left:5px solid var(--red);}
+.sc4 .shdr{border-left:5px solid var(--blue);}
+.sc5 .shdr{border-left:5px solid var(--gold);}
+.sc6 .shdr{border-left:5px solid var(--purple);}
+.sexp{margin-left:auto;color:var(--light);font-size:15px;transition:transform .2s;}
+.sblock.open .sexp{transform:rotate(180deg);}
+.sbody{display:none;padding:0 16px 16px;}
+.sblock.open .sbody{display:block;}
+.steplist{list-style:none;}
+.stepitem{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--cream);}
+.stepitem:last-child{border-bottom:none;}
+.stepnum{background:var(--red);color:white;border-radius:50%;width:24px;height:24px;min-width:24px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.steptxt{font-size:13px;line-height:1.6;}
+.stepnote{margin-top:4px;font-size:11px;color:var(--mid);background:var(--cream);border-radius:5px;padding:4px 8px;}
+.special-banner{background:linear-gradient(135deg,var(--red),var(--red-dark));color:white;border-radius:12px;padding:16px 20px;margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+
+@media(max-width:700px){.prow{grid-template-columns:1fr;}.dash-grid{grid-template-columns:1fr;}.dash-bottom{grid-template-columns:1fr;}}
+@media print{.nav,.pactions,.filters,.prep-day-tabs,.header-right,.edit-btn-row,.cimg-edit-btn{display:none!important;}.section{display:block!important;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-logo">🍽️ ครัว <span>Taboola</span> BKK</div>
+    <div class="header-sub">คู่มือเตรียมอาหารเช้าและสลัด · สำหรับผู้ช่วยครัว</div>
+  </div>
+  <div class="header-right">
+    <div class="hlabel">วันที่เปิดใช้</div>
+    <div class="hdate" id="todayDate">—</div>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="nav-tab active" onclick="showSec('special',this)">⭐ คลังเมนูพิเศษ</div>
+  <div class="nav-tab" onclick="showSec('salad',this)">🥗 คลังเมนูสลัด</div>
+  <div class="nav-tab" onclick="showSec('planner',this)">📋 วางแผนสัปดาห์</div>
+  <div class="nav-tab" id="tab-dashboard" onclick="showSec('dashboard',this)">📊 สรุปสัปดาห์</div>
+  <div class="nav-tab" onclick="showSec('prep',this)">👩‍🍳 วิธีเตรียมรายวัน</div>
+</div>
+
+<div class="main">
+
+<!-- ═══ SPECIAL CATALOG ═══ -->
+<div class="section active" id="section-special">
+  <div class="sec-title">⭐ คลังเมนูพิเศษ</div>
+  <div class="sec-desc">เมนูสำหรับวันอังคารและวันพฤหัสบดี · คลิก ✏️ แก้ไข เพื่อแก้ชื่อ คำอธิบาย หรือวัตถุดิบ · คลิกรูปเพื่อเปลี่ยนรูปภาพ</div>
+  <div class="dleg">
+    <span class="dleg-title">มีส่วนผสม:</span>
+    <span>🐷 หมู</span><span>🐔 ไก่</span><span>🐄 เนื้อวัว</span><span>🐟 ปลา/ทะเล</span><span>🥚 ไข่</span><span>🌱 วีแกน</span>
+  </div>
+  <div class="filters">
+    <button class="fbtn active" onclick="filterCat('special','all',this)">ทั้งหมด</button>
+    <button class="fbtn" onclick="filterCat('special','rice',this)">🍚 ข้าว</button>
+    <button class="fbtn" onclick="filterCat('special','noodle',this)">🍝 เส้น/พาสต้า</button>
+    <button class="fbtn" onclick="filterCat('special','veg',this)">🌱 มังสวิรัติ</button>
+    <button class="fbtn" onclick="filterCat('special','nopork',this)">🚫🐷 ไม่มีหมู</button>
+  </div>
+  <div class="cgrid" id="specialGrid"></div>
+</div>
+
+<!-- ═══ SALAD CATALOG ═══ -->
+<div class="section" id="section-salad">
+  <div class="sec-title">🥗 คลังเมนูสลัดประจำสัปดาห์</div>
+  <div class="sec-desc">เลือก 1 เมนูต่อสัปดาห์ · เสิร์ฟเมนูเดิมทุกวันตลอดสัปดาห์นั้น · คลิก ✏️ แก้ไขข้อมูล หรือคลิกรูปเพื่อเปลี่ยนรูปภาพ</div>
+  <div class="dleg">
+    <span class="dleg-title">มีส่วนผสม:</span>
+    <span>🐔 ไก่</span><span>🐟 อาหารทะเล</span><span>🥚 ไข่</span><span>🌱 วีแกน</span>
+  </div>
+  <div class="filters">
+    <button class="fbtn active" onclick="filterCat('salad','all',this)">ทั้งหมด</button>
+    <button class="fbtn" onclick="filterCat('salad','veg',this)">🌱 มังสวิรัติ</button>
+    <button class="fbtn" onclick="filterCat('salad','protein',this)">💪 มีโปรตีน</button>
+    <button class="fbtn" onclick="filterCat('salad','asian',this)">🍜 เอเชีย</button>
+    <button class="fbtn" onclick="filterCat('salad','western',this)">🫙 ตะวันตก</button>
+  </div>
+  <div class="cgrid" id="saladGrid"></div>
+</div>
+
+<!-- ═══ PLANNER ═══ -->
+<div class="section" id="section-planner">
+  <div class="sec-title">📋 วางแผนสัปดาห์</div>
+  <div class="sec-desc">ทำทุกวันศุกร์ · <strong>ขั้นตอน 1</strong> เลือกเมนู → <strong>ขั้นตอน 2</strong> เช็คของในครัวที่มีอยู่แล้ว → <strong>ขั้นตอน 3</strong> กดสร้างสรุปเพื่อ screenshot ส่ง supplier</div>
+
+  <div class="pcard">
+    <h3>🥗 สลัดประจำสัปดาห์หน้า</h3>
+    <p>เลือก 1 เมนู — จะเสิร์ฟเมนูนี้ทุกวันตลอดสัปดาห์</p>
+    <select class="psel" id="week-salad"><option value="">— เลือกสลัดประจำสัปดาห์ —</option></select>
+  </div>
+  <div class="prow">
+    <div class="pcard">
+      <h3>⭐ เมนูพิเศษ วันอังคาร</h3>
+      <p>👥 คาดว่ามี 50–60 คน</p>
+      <select class="psel" id="tue-special"><option value="">— เลือกเมนูพิเศษ —</option></select>
+    </div>
+    <div class="pcard">
+      <h3>⭐ เมนูพิเศษ วันพฤหัสบดี</h3>
+      <p>👥 คาดว่ามี 50–60 คน</p>
+      <select class="psel" id="thu-special"><option value="">— เลือกเมนูพิเศษ —</option></select>
+    </div>
+  </div>
+
+  <div class="pactions">
+    <button class="btn btn-primary" onclick="showStockCheck()">ขั้นตอน 2 → เช็คของในครัว 📦</button>
+    <button class="btn btn-outline" onclick="clearPlanner()">🔄 เริ่มใหม่</button>
+  </div>
+
+  <div class="shop-out" id="shopOut">
+    <div class="shop-special">
+      <h3>🌟 วัตถุดิบพิเศษที่ต้องสั่งเพิ่ม</h3>
+      <div id="specialItemsList"></div>
+    </div>
+    <div class="shop-base">
+      <h3>📦 วัตถุดิบประจำ — เช็คของที่มีอยู่แล้ว</h3>
+      <p>ติ๊กออก ✓ = ยังมีของเหลือ ไม่ต้องสั่ง</p>
+      <div id="baseItemsList"></div>
+    </div>
+    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-primary" style="font-size:15px;padding:13px 28px" onclick="goToDashboard()">ขั้นตอน 3 → สร้างสรุปสัปดาห์ 📊</button>
+      <button class="btn btn-outline" onclick="clearPlanner()">🔄 เริ่มใหม่</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="section" id="section-dashboard">
+  <div class="sec-title">📊 สรุปสัปดาห์ — พร้อม Screenshot</div>
+  <div class="sec-desc">Screenshot หน้านี้ส่งให้ทีมและ supplier ได้เลย</div>
+  <div id="dashContent">
+    <div class="dash-no-sel">⚠️ ยังไม่ได้วางแผนสัปดาห์ · ไปที่หน้า "วางแผนสัปดาห์" แล้วกด "สร้างรายการสั่งซื้อ + ดูสรุป" ก่อนนะคะ</div>
+  </div>
+</div>
+
+<!-- ═══ PREP ═══ -->
+<div class="section" id="section-prep">
+  <div class="sec-title">👩‍🍳 วิธีเตรียมรายวัน</div>
+  <div class="sec-desc">เลือกวัน แล้วทำตามขั้นตอนทีละสถานี เริ่มก่อน 8.00 น.</div>
+  <div class="prep-day-tabs">
+    <button class="pdtab active" onclick="showPrep('mon',this)">วันจันทร์</button>
+    <button class="pdtab" onclick="showPrep('tue',this)">⭐ วันอังคาร</button>
+    <button class="pdtab" onclick="showPrep('wed',this)">วันพุธ</button>
+    <button class="pdtab" onclick="showPrep('thu',this)">⭐ วันพฤหัสบดี</button>
+    <button class="pdtab" onclick="showPrep('fri',this)">วันศุกร์</button>
+  </div>
+  <div class="prep-panel active" id="prep-mon"><div id="st-mon"></div></div>
+  <div class="prep-panel" id="prep-tue">
+    <div class="special-banner"><span style="font-size:32px">⭐</span><div><div style="font-weight:700;font-size:15px">วันอังคาร — วันหลัก + เมนูพิเศษ</div><div style="font-size:12px;opacity:.85">50–60 คน · เตรียมเต็มปริมาณ</div></div></div>
+    <div id="st-tue"></div>
+  </div>
+  <div class="prep-panel" id="prep-wed"><div id="st-wed"></div></div>
+  <div class="prep-panel" id="prep-thu">
+    <div class="special-banner"><span style="font-size:32px">⭐</span><div><div style="font-weight:700;font-size:15px">วันพฤหัสบดี — วันหลัก + เมนูพิเศษ</div><div style="font-size:12px;opacity:.85">50–60 คน · เตรียมเต็มปริมาณ</div></div></div>
+    <div id="st-thu"></div>
+  </div>
+  <div class="prep-panel" id="prep-fri"><div id="st-fri"></div></div>
+</div>
+
+</div><!-- /main -->
+
+<!-- image URL modal -->
+<div class="modal-overlay" id="imgModal">
+  <div class="modal-box">
+    <h3>📷 เปลี่ยนรูปภาพ</h3>
+    <p>วางลิ้งก์รูป (URL) ด้านล่าง เช่น รูปที่ถ่ายในออฟฟิศแล้วอัปโหลดขึ้น Google Photos หรือ Drive แล้วกด "บันทึก"</p>
+    <img id="modalPreview" class="modal-preview" src="" alt="preview">
+    <input class="modal-input" id="modalUrlInput" type="text" placeholder="https://example.com/food.jpg" oninput="previewModalImg()">
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeImgModal()">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="saveImgModal()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA — edit freely
+// ═══════════════════════════════════════════
+let SPECIAL_MENUS = [
+  {id:'s1', emoji:'🍚', name:'ข้าวต้มหมู',           nameEn:'Pork Congee',          tags:['rice','pork'],              meat:['🐷'], desc:'ข้าวต้มน้ำใส หมูสับ ขิง กระเทียมเจียว เสิร์ฟพร้อมปาท่องโก๋', extras:['หมูสับ 1 กก.','ปาท่องโก๋','ขิงสด'], img:''},
+  {id:'s2', emoji:'🍚', name:'ข้าวต้มไก่',           nameEn:'Chicken Congee',       tags:['rice','chicken','nopork'],  meat:['🐔'], desc:'ข้าวต้มน้ำใส อกไก่ฉีก ขิง กระเทียมเจียว เหมาะทุกกลุ่ม',    extras:['อกไก่ 800 ก.','ขิงสด'], img:''},
+  {id:'s3', emoji:'🍚', name:'ข้าวต้มผัก (วีแกน)',   nameEn:'Vegetable Congee',     tags:['rice','veg','nopork'],      meat:['🌱'],desc:'ข้าวต้มน้ำใส เห็ดรวม เต้าหู้ขาว ผักคะน้า กระเทียม',       extras:['เห็ดรวม 500 ก.','เต้าหู้ขาว'], img:''},
+  {id:'s4', emoji:'🍝', name:'พาสต้าซอสมะเขือเทศ',  nameEn:'Tomato Pasta',         tags:['noodle','veg','nopork'],    meat:['🌱'],desc:'พาสต้าซอสมะเขือเทศสด โหระพา กระเทียม ชีสพาร์เมซาน',       extras:['มะเขือเทศกระป๋อง 3 กระป๋อง','พาสต้า 1.5 กก.'], img:''},
+  {id:'s5', emoji:'🍝', name:'พาสต้าครีมเห็ด',      nameEn:'Mushroom Cream Pasta', tags:['noodle','veg','nopork'],    meat:['🌱'],desc:'พาสต้าซอสครีมเห็ดหอม เห็ดนางฟ้า วิปปิ้งครีม',             extras:['เห็ดหอมสด 500 ก.','วิปปิ้งครีม 500 มล.'], img:''},
+  {id:'s6', emoji:'🍝', name:'พาสต้าซีฟู้ด',        nameEn:'Seafood Pasta',        tags:['noodle','nopork'],          meat:['🐟'],desc:'สปาเกตตีซอสมะเขือเทศ กุ้ง หอยแมลงภู่ ปลาหมึก',           extras:['กุ้ง 500 ก.','หอยแมลงภู่ 500 ก.','ปลาหมึก 300 ก.'], img:''},
+  {id:'s7', emoji:'🍛', name:'ข้าวหมกไก่',          nameEn:'Chicken Biryani',      tags:['rice','chicken','nopork'],  meat:['🐔'],desc:'ข้าวหมกไก่สไตล์อินเดีย เสิร์ฟพร้อมราย์ตา (โยเกิร์ตแตงกวา)',extras:['ข้าวบาสมาติ 2 กก.','เครื่องเทศบิรยานี','โยเกิร์ต'], img:''},
+  {id:'s8', emoji:'🍛', name:'แกงเขียวหวานไก่',     nameEn:'Green Curry Chicken',  tags:['rice','chicken','nopork'],  meat:['🐔'],desc:'แกงเขียวหวานไก่กับมะเขือ โหระพา เสิร์ฟพร้อมข้าวสวย',        extras:['กะทิ 2 กระป๋อง','พริกแกงเขียว'], img:''},
+  {id:'s9', emoji:'🫕', name:'ดาล แกงถั่ว (วีแกน)', nameEn:'Dal Curry (Vegan)',    tags:['rice','veg','nopork'],      meat:['🌱'],desc:'แกงถั่วสไตล์อินเดีย ขมิ้น ยี่หร่า เสิร์ฟพร้อมข้าวและนาน',  extras:['ถั่วแดง 500 ก.','ขนมปังนาน','เครื่องเทศอินเดีย'], img:''},
+  {id:'s10',emoji:'🍜', name:'ราเมงไก่',            nameEn:'Chicken Ramen',        tags:['noodle','chicken','nopork'],meat:['🐔'],desc:'น้ำซุปไก่ใส เส้นราเมง ไข่ต้มยางมะตูม สาหร่าย ข้าวโพด',    extras:['เส้นราเมง 1.5 กก.','สาหร่ายนอริ','ซอสโชยุ'], img:''},
+  {id:'s11',emoji:'🍜', name:'ก๋วยเตี๋ยวเนื้อตุ๋น', nameEn:'Braised Beef Noodle',  tags:['noodle','beef','nopork'],   meat:['🐄'],desc:'ก๋วยเตี๋ยวน้ำตุ๋นเนื้อวัว หอมใหญ่ โป๊ยกั้ก เสิร์ฟพร้อมผักสด',extras:['เนื้อวัว 1 กก.','กระดูกวัว','โป๊ยกั้ก'], img:''},
+  {id:'s12',emoji:'🥘', name:'ผัดไทยกุ้ง',          nameEn:'Pad Thai Shrimp',      tags:['noodle','nopork'],          meat:['🐟'],desc:'เส้นจันทน์ กุ้งสด ไข่ ถั่วงอก มะนาว พริกป่น ถั่วลิสง',    extras:['กุ้ง 800 ก.','เส้นจันทน์ 1.5 กก.','น้ำมะขาม'], img:''},
+];
+
+let SALAD_MENUS = [
+  {id:'sl1', emoji:'🥗', name:'สลัดกรีก',              nameEn:'Greek Salad',      tags:['western','veg'],           meat:[],         desc:'มะเขือเทศเชอรี่ แตงกวา มะกอก ชีสเฟต้า หัวหอมแดง น้ำสลัดมะนาวออลิฟ', extras:['ชีสเฟต้า','มะกอกกระป๋อง'], img:''},
+  {id:'sl2', emoji:'🥗', name:'สลัดซีซาร์ไก่',         nameEn:'Caesar Chicken',   tags:['western','protein'],       meat:['🐔'],     desc:'ผักกาดโรเมน อกไก่ย่าง ครูตอง พาร์เมซาน น้ำสลัดซีซาร์',               extras:['ครูตอง','อกไก่ 500 ก. (สลัด)'], img:''},
+  {id:'sl3', emoji:'🥗', name:'สลัดญี่ปุ่น',           nameEn:'Japanese Salad',   tags:['asian','veg'],             meat:[],         desc:'ผักสลัดรวม เอดามาเมะ สาหร่ายแห้ง งาขาว น้ำสลัดญี่ปุ่น',             extras:['เอดามาเมะ 200 ก.','สาหร่ายแห้ง','น้ำสลัดญี่ปุ่น'], img:''},
+  {id:'sl4', emoji:'🥗', name:'สลัดควินัว (วีแกน)',    nameEn:'Quinoa Salad',     tags:['western','veg','protein'], meat:[],         desc:'ควินัวต้มสุก อโวคาโด มะเขือเทศเชอรี่ มะนาว น้ำมันมะกอก สมุนไพร',    extras:['ควินัว 300 ก.','อโวคาโด 3 ลูก'], img:''},
+  {id:'sl5', emoji:'🥗', name:'สลัดแซลมอน',           nameEn:'Salmon Salad',     tags:['western','asian','protein'],meat:['🐟'],    desc:'แซลมอนรมควัน ผักสลัดรวม หัวไชเท้า งา น้ำสลัดมิโซะ',                 extras:['แซลมอนรมควัน 300 ก.','น้ำสลัดมิโซะ'], img:''},
+  {id:'sl6', emoji:'🥗', name:'สลัดส้มตำ (ไทย)',       nameEn:'Som Tum Salad',    tags:['asian','veg'],             meat:[],         desc:'มะละกอดิบ มะเขือเทศ ถั่วฝักยาว มะนาว น้ำปลา น้ำตาล (ปรับเผ็ดได้)',  extras:['มะละกอดิบ 1 ลูก'], img:''},
+  {id:'sl7', emoji:'🥗', name:'สลัดอีสาน (ยำ)',        nameEn:'Isaan Yum Salad',  tags:['asian','protein'],         meat:['🥚'],    desc:'ผักสลัดรวม ไข่ต้ม หอมใหญ่ มะเขือเทศ น้ำสลัดยำเปรี้ยว-เผ็ด ถั่วลิสง',extras:['น้ำสลัดยำสำเร็จรูป','ถั่วลิสงคั่ว'], img:''},
+  {id:'sl8', emoji:'🥗', name:'สลัดโคบ (Cobb)',        nameEn:'Cobb Salad',       tags:['western','protein'],       meat:['🐔','🥚'],desc:'ไข่ต้ม อกไก่ย่าง เบคอน อโวคาโด มะเขือเทศ น้ำสลัดแรนช์',             extras:['อโวคาโด 2 ลูก (สลัด)','น้ำสลัดแรนช์'], img:''},
+  {id:'sl9', emoji:'🥗', name:'สลัดกะหล่ำปลีเกาหลี',  nameEn:'Korean Coleslaw',  tags:['asian','veg'],             meat:[],         desc:'กะหล่ำปลีหั่นฝอย แครอท แตงกวา ซอสโกชูจัง น้ำมันงา งา',             extras:['ซอสโกชูจัง','น้ำมันงา'], img:''},
+  {id:'sl10',emoji:'🥗', name:'สลัดทูน่า',             nameEn:'Tuna Salad',       tags:['western','protein'],       meat:['🐟','🥚'],desc:'ทูน่ากระป๋อง ผักสลัดรวม ข้าวโพด ไข่ต้ม มะเขือเทศเชอรี่ มายองเนสเบา', extras:['ทูน่ากระป๋อง 4 กระป๋อง'], img:''},
+];
+
+const BASE_ITEMS = [
+  {cat:'🥬 ผักสลัด', items:['ผักกาดหอม/โรเมน','ผักโขม/รูคูล่า','มะเขือเทศเชอรี่','แตงกวา','แครอท','บร็อคโคลี่','หัวหอมแดง','อโวคาโด']},
+  {cat:'🍉 ผลไม้', items:['แอปเปิ้ล','มะม่วง','สับปะรด','แตงโม','มะละกอ','เมล่อน']},
+  {cat:'🥚 โปรตีนพื้นฐาน', items:['ไข่ไก่','ไส้กรอก','อกไก่หั่นบาง']},
+  {cat:'🥐 ขนมปัง', items:['ขนมปังปอนด์','ครัวซองต์']},
+  {cat:'🧀 สเปรด', items:['ชีสโกดาแผ่น','เนย','เนยกระเทียม','ครีมชีส','มายองเนส']},
+  {cat:'🥛 นม', items:['นมวัว','นมถั่วเหลือง','นมอัลมอนด์','นมพิสตาชิโอ']},
+  {cat:'🌾 ซีเรียล/นัต', items:['มะม่วงหิมพานต์','เมล็ดทานตะวัน','อัลมอนด์','พิสตาชิโอ']},
+];
+
+// track checked state {itemName: bool} — true = need to buy, false = have stock
+let baseChecked = {};
+BASE_ITEMS.forEach(cat => cat.items.forEach(i => { baseChecked[i] = true; }));
+
+// ═══ IMAGE MODAL STATE ═══
+let modalTargetId = null;
+let modalTargetType = null;
+
+// ═══ RENDER CARDS ═══
+function cardHTML(m, type) {
+  const imgBlock = m.img
+    ? `<img src="${m.img}" alt="${m.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      + `<div class="cimg-placeholder" style="display:none">${m.emoji}</div>`
+    : `<div class="cimg-placeholder">${m.emoji}</div>`;
+
+  const extrasHtml = m.extras.map(e=>`<li>${e}</li>`).join('');
+
+  return `<div class="mcard" id="card-${m.id}">
+    <div class="cimg-wrap" onclick="openImgModal('${m.id}','${type}')">
+      ${imgBlock}
+      <button class="cimg-edit-btn" onclick="event.stopPropagation();openImgModal('${m.id}','${type}')">📷 เปลี่ยนรูป</button>
+    </div>
+    <div class="cbody">
+      <div class="cmeat">${m.meat.join(' ')}</div>
+      <div class="cname" id="name-${m.id}">${m.name}</div>
+      <div class="cen" id="en-${m.id}">${m.nameEn}</div>
+      <div class="cdesc" id="desc-${m.id}">${m.desc}</div>
+      <div id="extras-preview-${m.id}" style="font-size:11px;color:var(--light);margin-top:4px">🛒 ${m.extras.join(' · ')}</div>
+      <div class="edit-btn-row">
+        <button class="ebtn" onclick="toggleEditForm('${m.id}','${type}')">✏️ แก้ไข</button>
+      </div>
+      <div class="edit-form" id="ef-${m.id}">
+        <span class="eflabel">ชื่อเมนู (ภาษาไทย)</span>
+        <input class="efinput" id="ef-name-${m.id}" value="${m.name}">
+        <span class="eflabel">ชื่อ (English)</span>
+        <input class="efinput" id="ef-en-${m.id}" value="${m.nameEn}">
+        <span class="eflabel">คำอธิบายและส่วนผสมหลัก</span>
+        <textarea class="efinput" id="ef-desc-${m.id}">${m.desc}</textarea>
+        <span class="eflabel">วัตถุดิบพิเศษที่ต้องสั่ง (คั่นด้วย , )</span>
+        <input class="efinput" id="ef-extras-${m.id}" value="${m.extras.join(', ')}">
+        <button class="ef-save" onclick="saveEdit('${m.id}','${type}')">💾 บันทึก</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCatalog(type, filter) {
+  const menus = type==='special' ? SPECIAL_MENUS : SALAD_MENUS;
+  const grid = document.getElementById(type==='special' ? 'specialGrid' : 'saladGrid');
+  const filtered = filter==='all' ? menus :
+    filter==='nopork' ? menus.filter(m=>!m.tags.includes('pork')) :
+    menus.filter(m=>m.tags.includes(filter));
+  grid.innerHTML = filtered.map(m=>cardHTML(m,type)).join('');
+}
+
+function filterCat(type, filter, btn) {
+  const sec = type==='special' ? 'section-special' : 'section-salad';
+  document.querySelectorAll(`#${sec} .fbtn`).forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCatalog(type, filter);
+}
+
+function toggleEditForm(id, type) {
+  const ef = document.getElementById('ef-'+id);
+  ef.classList.toggle('open');
+}
+
+function saveEdit(id, type) {
+  const menus = type==='special' ? SPECIAL_MENUS : SALAD_MENUS;
+  const m = menus.find(x=>x.id===id);
+  if (!m) return;
+  m.name = document.getElementById('ef-name-'+id).value.trim();
+  m.nameEn = document.getElementById('ef-en-'+id).value.trim();
+  m.desc = document.getElementById('ef-desc-'+id).value.trim();
+  m.extras = document.getElementById('ef-extras-'+id).value.split(',').map(s=>s.trim()).filter(Boolean);
+  // update visible parts without full re-render
+  document.getElementById('name-'+id).textContent = m.name;
+  document.getElementById('en-'+id).textContent = m.nameEn;
+  document.getElementById('desc-'+id).textContent = m.desc;
+  document.getElementById('extras-preview-'+id).textContent = '🛒 '+m.extras.join(' · ');
+  document.getElementById('ef-'+id).classList.remove('open');
+  populateSelects();
+}
+
+// ═══ IMAGE MODAL ═══
+function openImgModal(id, type) {
+  modalTargetId = id;
+  modalTargetType = type;
+  document.getElementById('modalUrlInput').value = '';
+  document.getElementById('modalPreview').style.display='none';
+  document.getElementById('imgModal').classList.add('open');
+}
+function closeImgModal() { document.getElementById('imgModal').classList.remove('open'); }
+function previewModalImg() {
+  const url = document.getElementById('modalUrlInput').value.trim();
+  const prev = document.getElementById('modalPreview');
+  if (url) { prev.src=url; prev.style.display='block'; } else { prev.style.display='none'; }
+}
+function saveImgModal() {
+  const url = document.getElementById('modalUrlInput').value.trim();
+  if (!url || !modalTargetId) { closeImgModal(); return; }
+  const menus = modalTargetType==='special' ? SPECIAL_MENUS : SALAD_MENUS;
+  const m = menus.find(x=>x.id===modalTargetId);
+  if (m) m.img = url;
+  // re-render the image area of this card
+  const wrap = document.querySelector(`#card-${modalTargetId} .cimg-wrap`);
+  if (wrap) {
+    const btn = wrap.querySelector('.cimg-edit-btn').outerHTML;
+    wrap.innerHTML = `<img src="${url}" alt="${m.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">${btn}`;
+    wrap.querySelector('.cimg-edit-btn').onclick = (e) => { e.stopPropagation(); openImgModal(modalTargetId, modalTargetType); };
+    wrap.onclick = () => openImgModal(modalTargetId, modalTargetType);
+  }
+  closeImgModal();
+}
+
+// ═══ PLANNER SELECTS ═══
+function populateSelects() {
+  const sOpts = SALAD_MENUS.map(m=>`<option value="${m.id}">${m.emoji} ${m.name} ${m.meat.join('')}</option>`).join('');
+  const spOpts = SPECIAL_MENUS.map(m=>`<option value="${m.id}">${m.emoji} ${m.name} ${m.meat.join('')}</option>`).join('');
+  const ws = document.getElementById('week-salad');
+  const tue = document.getElementById('tue-special');
+  const thu = document.getElementById('thu-special');
+  const wsVal=ws.value, tueVal=tue.value, thuVal=thu.value;
+  ws.innerHTML = '<option value="">— เลือกสลัดประจำสัปดาห์ —</option>'+sOpts;
+  tue.innerHTML = '<option value="">— เลือกเมนูพิเศษ —</option>'+spOpts;
+  thu.innerHTML = '<option value="">— เลือกเมนูพิเศษ —</option>'+spOpts;
+  ws.value=wsVal; tue.value=tueVal; thu.value=thuVal;
+}
+
+// ═══ STEP 2: show stock checklist (stay on planner page) ═══
+function showStockCheck() {
+  const tueId = document.getElementById('tue-special').value;
+  const thuId = document.getElementById('thu-special').value;
+  const salId = document.getElementById('week-salad').value;
+
+  // build specials list
+  const specials = [];
+  const addExtras = (id, menus, dayLabel) => {
+    const m = menus.find(x=>x.id===id);
+    if (m) m.extras.forEach(e=>specials.push({day:dayLabel, item:e, menu:m.name}));
+  };
+  if (tueId) addExtras(tueId, SPECIAL_MENUS, 'อังคาร');
+  if (thuId) addExtras(thuId, SPECIAL_MENUS, 'พฤหัสบดี');
+  if (salId) addExtras(salId, SALAD_MENUS, 'สลัด');
+
+  // render special extras
+  document.getElementById('specialItemsList').innerHTML = specials.length===0
+    ? '<p style="color:var(--light);font-size:13px">ไม่มีวัตถุดิบพิเศษเพิ่มเติม</p>'
+    : specials.map(s=>`<div class="sitem"><span class="stag">${s.day}</span><span>${s.item}</span><span style="color:var(--light);font-size:11px;margin-left:auto">${s.menu}</span></div>`).join('');
+
+  // render base checklist — reset state, use data-idx to avoid Thai in HTML attrs
+  BASE_ITEMS.forEach(cat => cat.items.forEach(i => { baseChecked[i] = true; }));
+  let flatItems = [];
+  BASE_ITEMS.forEach(cat => cat.items.forEach(i => flatItems.push(i)));
+
+  document.getElementById('baseItemsList').innerHTML = BASE_ITEMS.map(cat => `
+    <div class="bcat">
+      <h4>${cat.cat}</h4>
+      <div class="bitems">
+        ${cat.items.map(item => {
+          const idx = flatItems.indexOf(item);
+          return `<label class="bitem"><input type="checkbox" data-idx="${idx}"><span>${item}</span></label>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+
+  document.querySelectorAll('#baseItemsList input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', function() {
+      const name = flatItems[parseInt(this.getAttribute('data-idx'))];
+      baseChecked[name] = !this.checked;
+      this.closest('.bitem').classList.toggle('done', this.checked);
+    });
+  });
+
+  document.getElementById('shopOut').classList.add('vis');
+  document.getElementById('shopOut').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ═══ STEP 3: build dashboard and navigate ═══
+function goToDashboard() {
+  const tueId = document.getElementById('tue-special').value;
+  const thuId = document.getElementById('thu-special').value;
+  const salId = document.getElementById('week-salad').value;
+
+  const specials = [];
+  const addExtras = (id, menus, dayLabel) => {
+    const m = menus.find(x=>x.id===id);
+    if (m) m.extras.forEach(e=>specials.push({day:dayLabel, item:e, menu:m.name}));
+  };
+  if (tueId) addExtras(tueId, SPECIAL_MENUS, 'อังคาร');
+  if (thuId) addExtras(thuId, SPECIAL_MENUS, 'พฤหัสบดี');
+  if (salId) addExtras(salId, SALAD_MENUS, 'สลัด');
+
+  buildDashboard(tueId, thuId, salId, specials);
+  showSec('dashboard', document.getElementById('tab-dashboard'));
+}
+
+function toggleBase(item, cb) {
+  baseChecked[item] = !cb.checked; // checked = have stock = don't buy
+  const label = cb.closest('.bitem');
+  label.classList.toggle('done', cb.checked);
+}
+
+function buildDashboard(tueId, thuId, salId, specials) {
+  const tueM = SPECIAL_MENUS.find(x=>x.id===tueId);
+  const thuM = SPECIAL_MENUS.find(x=>x.id===thuId);
+  const salM = SALAD_MENUS.find(x=>x.id===salId);
+
+  function menuCard(m, label) {
+    if (!m) return `<div class="dash-card"><div class="dash-card-img-ph">—</div><div class="dash-card-body"><div class="dash-card-label">${label}</div><div class="dash-card-name" style="color:var(--light)">ยังไม่ได้เลือก</div></div></div>`;
+    const imgPart = m.img
+      ? `<img class="dash-card-img" src="${m.img}" alt="${m.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="dash-card-img-ph" style="display:none">${m.emoji}</div>`
+      : `<div class="dash-card-img-ph">${m.emoji}</div>`;
+    return `<div class="dash-card">${imgPart}<div class="dash-card-body"><div class="dash-card-label">${label}</div><div class="dash-card-meat">${m.meat.join(' ')}</div><div class="dash-card-name">${m.name}</div><div class="dash-card-desc">${m.desc}</div></div></div>`;
+  }
+
+  // need to buy = checked true
+  const toBuy = [];
+  BASE_ITEMS.forEach(cat=>cat.items.forEach(i=>{ if(baseChecked[i]!==false) toBuy.push(i); }));
+  const haveStock = [];
+  BASE_ITEMS.forEach(cat=>cat.items.forEach(i=>{ if(baseChecked[i]===false) haveStock.push(i); }));
+
+  const html = `
+    <div style="background:white;border-radius:16px;border:2px solid var(--border);padding:22px 24px;margin-bottom:18px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
+        <div>
+          <div style="font-family:'Prompt',sans-serif;font-size:18px;font-weight:700;color:var(--red)">📊 สรุปสัปดาห์</div>
+          <div style="font-size:13px;color:var(--mid)">จัดทำวัน${formatThaiDate(new Date())}</div>
+        </div>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Print / Screenshot</button>
+      </div>
+
+      <div class="dash-grid" style="margin-bottom:20px;">
+        ${menuCard(salM,'🥗 สลัดประจำสัปดาห์')}
+        ${menuCard(tueM,'⭐ เมนูพิเศษ วันอังคาร')}
+        ${menuCard(thuM,'⭐ เมนูพิเศษ วันพฤหัสบดี')}
+      </div>
+
+      <div class="dash-bottom">
+        <div class="dash-list-card">
+          <h3>🌟 ต้องสั่งซื้อเพิ่ม</h3>
+          ${specials.length===0 && toBuy.length===0
+            ? '<div class="dash-empty">ไม่มีรายการสั่งซื้อเพิ่มเติม</div>'
+            : ''}
+          ${specials.map(s=>`<div class="dash-list-item"><div class="dash-dot"></div><div><span style="font-size:11px;background:var(--red);color:white;border-radius:4px;padding:1px 6px;margin-right:6px">${s.day}</span>${s.item}</div></div>`).join('')}
+          ${toBuy.length>0 ? `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:11px;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">วัตถุดิบประจำที่ต้องซื้อ</div>` : ''}
+          ${toBuy.map(i=>`<div class="dash-list-item"><div class="dash-dot"></div>${i}</div>`).join('')}
+        </div>
+        <div class="dash-list-card">
+          <h3>✅ มีของเหลือ ไม่ต้องซื้อ</h3>
+          ${haveStock.length===0
+            ? '<div class="dash-empty">ไม่มีรายการ</div>'
+            : haveStock.map(i=>`<div class="dash-list-item"><div class="dash-dot green"></div>${i}</div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('dashContent').innerHTML = html;
+}
+
+function clearPlanner() {
+  ['week-salad','tue-special','thu-special'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('shopOut').classList.remove('vis');
+  document.getElementById('dashContent').innerHTML = '<div class="dash-no-sel">⚠️ ยังไม่ได้วางแผนสัปดาห์ · ไปที่หน้า "วางแผนสัปดาห์" แล้วกด "สร้างรายการสั่งซื้อ + ดูสรุป" ก่อนนะคะ</div>';
+  BASE_ITEMS.forEach(cat=>cat.items.forEach(i=>{ baseChecked[i]=true; }));
+}
+
+// ═══ NAV ═══
+function showSec(id, btn) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('section-'+id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ═══ PREP STATIONS ═══
+const STATIONS = [
+  {icon:'🥬',label:'สถานีสลัดผักสด',cls:'sc1',steps:[
+    {t:'ล้างผักทุกชนิด <strong>2 รอบ</strong> ด้วยน้ำเย็น แช่น้ำ 5 นาที',n:'💡 ผักจะกรอบและสะอาดกว่า'},
+    {t:'ฉีกหรือหั่น <strong>ผักกาดหอม / ผักโขม / รูคูล่า</strong> เป็นชิ้นพอดีคำ',n:''},
+    {t:'หั่น <strong>มะเขือเทศ แตงกวา แครอท หัวหอมแดง</strong> ใส่ชามเล็กแยกกัน',n:'⚠️ อโวคาโด — หั่นทีหลังสุด กันดำ'},
+    {t:'จัด <strong>สลัดประจำสัปดาห์</strong> ในชามใหญ่ตรงกลาง วางป้ายชื่อ',n:'📋 ดูสูตรจากหน้าคลังเมนูสลัด'},
+    {t:'วางน้ำสลัด 3 ชนิด: <strong>ซีซาร์ · ญี่ปุ่น · มายองเนส</strong>',n:''},
+  ]},
+  {icon:'🥦',label:'สถานีผักปรุงสุก',cls:'sc2',steps:[
+    {t:'ลวก <strong>บร็อคโคลี่</strong> น้ำเดือด 3 นาที แช่น้ำเย็นทันที',n:'⏱️ อย่านานเกิน ผักจะนิ่มเกิน'},
+    {t:'ต้ม/อบ <strong>ข้าวโพด มันเทศ</strong> จนสุก',n:''},
+    {t:'ผัด <strong>เห็ด</strong> กับเนยเล็กน้อย ใส่เกลือ',n:''},
+    {t:'จัดในถาดแยกชนิด วางช้อนตักทุกถาด',n:''},
+  ]},
+  {icon:'🥚',label:'สถานีโปรตีน',cls:'sc3',steps:[
+    {t:'ต้มไข่ไก่ <strong>10 นาที</strong> แช่น้ำเย็น 5 นาที แกะเปลือก ผ่าครึ่ง',n:'🥚 อังคาร/พฤหัส: 25–30 ฟอง | วันอื่น: 12–15 ฟอง'},
+    {t:'อบ <strong>ไส้กรอก</strong> แอร์ฟรายเออร์ 180°C 8 นาที',n:''},
+    {t:'ย่าง/อบ <strong>อกไก่</strong> ปรุงรสเกลือ-พริกไทย หั่นชิ้นบาง',n:''},
+    {t:'จัดในถาดยาว วางป้ายชื่อแต่ละชนิด',n:'🌱 ไข่คือตัวเลือกสำหรับคนไม่ทานเนื้อ'},
+  ]},
+  {icon:'🍉',label:'สถานีผลไม้',cls:'sc2',steps:[
+    {t:'ล้าง ปอกเปลือก หั่นผลไม้ทุกชนิดเป็นชิ้นพอดีคำ',n:''},
+    {t:'ใส่ชามแยก: <strong>แอปเปิ้ล · มะม่วง · สับปะรด · แตงโม · มะละกอ · เมล่อน</strong>',n:'⚠️ แอปเปิ้ล — หยดน้ำมะนาวกันดำ'},
+    {t:'วางช้อนตักในทุกชาม',n:''},
+  ]},
+  {icon:'🥐',label:'สถานีขนมปังและสเปรด',cls:'sc4',steps:[
+    {t:'วางตะกร้า: <strong>ขนมปังปอนด์ · ครัวซองต์</strong>',n:'🥐 อังคาร/พฤหัส: 25–30 ชิ้น | วันอื่น: 10–15 ชิ้น'},
+    {t:'จัดสเปรด: <strong>เนย · เนยกระเทียม · ชีสโกดา · ครีมชีส</strong>',n:''},
+    {t:'อุ่นครัวซองต์ก่อนเวลาอาหาร <strong>10 นาที</strong>',n:''},
+  ]},
+  {icon:'🥣',label:'สถานีซีเรียลและนัต',cls:'sc5',steps:[
+    {t:'เช็คระดับซีเรียลในดิสเพนเซอร์ ถ้าน้อยกว่า 1/3 <strong>เติมทันที</strong>',n:''},
+    {t:'จัดถ้วยนัต: <strong>มะม่วงหิมพานต์ · เมล็ดทานตะวัน · อัลมอนด์ · พิสตาชิโอ</strong>',n:''},
+    {t:'วางกล่องนม 4 ชนิด พร้อมถ้วยและช้อน',n:''},
+  ]},
+];
+
+function renderStations(cid, withSpecial, note) {
+  const c = document.getElementById(cid); if(!c) return;
+  let html = STATIONS.map(s=>`
+    <div class="sblock ${s.cls}" onclick="this.classList.toggle('open')">
+      <div class="shdr"><span>${s.icon}</span>${s.label}<span class="sexp">▾</span></div>
+      <div class="sbody"><ol class="steplist">
+        ${s.steps.map((st,i)=>`<li class="stepitem"><div class="stepnum">${i+1}</div><div><div class="steptxt">${st.t}</div>${st.n?`<div class="stepnote">${st.n}</div>`:''}</div></li>`).join('')}
+      </ol></div>
+    </div>`).join('');
+  if(withSpecial) html+=`<div class="sblock sc6" onclick="this.classList.toggle('open')">
+    <div class="shdr"><span>⭐</span>เมนูพิเศษประจำวัน<span class="sexp">▾</span></div>
+    <div class="sbody"><div style="background:var(--purple-light);border-radius:9px;padding:13px;font-size:13px;color:var(--purple)">
+    ${note}<br><br>📋 ดูสูตรจากแผนสัปดาห์<br>🕗 เริ่มก่อน 7.30 น.<br>🫕 เสิร์ฟในหม้อใหญ่ วางป้ายชื่อ</div></div>
+    </div>`;
+  c.innerHTML = html;
+}
+
+function showPrep(day, btn) {
+  document.querySelectorAll('.prep-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.pdtab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('prep-'+day).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ═══ DATE ═══
+function formatThaiDate(d) {
+  const days=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+  const months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  return `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()+543}`;
+}
+
+// ═══ INIT ═══
+document.getElementById('todayDate').textContent = formatThaiDate(new Date());
+renderCatalog('special','all');
+renderCatalog('salad','all');
+populateSelects();
+renderStations('st-mon',false,'');
+renderStations('st-tue',true,'⭐ วันอังคาร — เช็คแผนจากคุณ Surinya / อนันต์');
+renderStations('st-wed',false,'');
+renderStations('st-thu',true,'⭐ วันพฤหัสบดี — เช็คแผนจากคุณ Surinya / อนันต์');
+renderStations('st-fri',false,'');
+</script>
+</body>
+</html>
